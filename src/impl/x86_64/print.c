@@ -1,13 +1,13 @@
 #include "print.h"
+#include "utils.h"
 
 const static size_t NUM_COLS = 80;
 const static size_t NUM_ROWS = 25;
-
+char* storedString;
 struct Char {
     uint8_t character;
     uint8_t color;
 };
-
 struct Char* buffer = (struct Char*) 0xb8000;
 size_t col = 0;
 size_t row = 0;
@@ -48,6 +48,10 @@ void print_newline() {
 }
 
 void print_char(char character) {
+    //if line is 24 add every char to storedString
+    if (row == NUM_ROWS - 1) {
+        storedString[col] = character;
+    }
     if (character == '\n') {
         print_newline();
         return;
@@ -80,10 +84,50 @@ void print_str(char* str) {
         }
 
         print_char(character);
+        //if line count is 25 store string
     }
 }
 
 void print_set_color(uint8_t foreground, uint8_t background) {
     color = foreground + (background << 4);
 }
+void line_down(){
+   //top: ab (line count 2, prevLineCol = 0) -> linedown: abc (line count 3, prevLineCol = 2) -> lineup: ab (line count 2, prevLineCol = 3) -> linedown (line count 3, prevLineCol = 2) and so on....
+   //if line count is under 25
+    if(row < NUM_ROWS - 1){
+         row++;
+         col = 0;
+    }else{
+        //clear all lines
+        for(size_t i = 0; i < NUM_ROWS; i++){
+            clear_row(i);
+        }
+        //set row to 0
+        row = 0;
+        //set col to 0
+        col = 0;
+        //print stored string
+        clear_row(0);
+        print_str(storedString);
+        //clear stored string
+        for(size_t i = 0; i < NUM_COLS; i++){
+            storedString[i] = '\0';
+        }
+        row++;
+        col = 0;
+    }
 
+};
+
+void printStrColored(char* string,uint8_t color){
+    print_set_color(color, PRINT_COLOR_BLACK);
+    print_str(string);
+    //set default color
+    print_set_color(PRINT_COLOR_WHITE, PRINT_COLOR_BLACK);
+};
+void printCharColored(char character, uint8_t color){
+    print_set_color(color, PRINT_COLOR_BLACK);
+    print_char(character);
+    //set default color
+    print_set_color(PRINT_COLOR_WHITE, PRINT_COLOR_BLACK);
+};
