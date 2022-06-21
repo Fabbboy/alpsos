@@ -15,66 +15,82 @@ uint8_t keyboard_read_input(){
 char keyboard_handle_input(){
     uint8_t input = keyboard_read_input();
     if(input == 0x1C){
-        return '\n';
+        return 'A';
     }
-    if(input == 0x0E){
-        return '\b';
+    if(input == 0x1D){
+        return 'B';
     }
-    if(input == 0x0F){
-        return '\t';
+    if(input == 0x1E){
+        return 'C';
     }
-    //identify the letter a to z
-    if(input >= 0x1E && input <= 0x27){
-        return input + 'a' - 0x1E;
+if(input == 0x1F){
+        return 'D';
     }
-    //identify the number 0 to 9
-    if(input >= 0x2F && input <= 0x39){
-        return input + '0' - 0x2F;
+    if(input == 0x20){
+        return 'E';
     }
-    //identify the number pad 0 to 9
-    if(input >= 0x47 && input <= 0x4F){
-        return input + '0' - 0x47;
+    if(input == 0x21){
+        return 'F';
     }
-    //identify the number pad * and +
-    if(input == 0x37 || input == 0x4A){
-        return '*';
+    if(input == 0x22){
+        return 'G';
     }
-    if(input == 0x4E){
-        return '+';
+    if(input == 0x23){
+        return 'H';
     }
-    //identify the number pad - and /
-    if(input == 0x4A || input == 0x4E){
-        return '-';
+    if(input == 0x24){
+        return 'I';
     }
-    if(input == 0x4F){
-        return '/';
+    if(input == 0x25){
+        return 'J';
     }
-    //identify the number pad = and enter
-    if(input == 0x50 || input == 0x1C){
-        return '=';
+    if(input == 0x26){
+        return 'K';
     }
-    //identify the number pad backspace
-    if(input == 0x66){
-        return '\b';
+    if(input == 0x27){
+        return 'L';
     }
-    //identify the number pad tab
-    if(input == 0x0F){
-        return '\t';
+    if(input == 0x28){
+        return 'M';
     }
-    //identify the number pad left arrow
-    if(input == 0x4B){
-        return '<';
+    if(input == 0x29){
+        return 'N';
     }
-    //identify the number pad right arrow
-    if(input == 0x4D){
-        return '>';
+    if(input == 0x2A){
+        return 'O';
     }
-    //identify the number pad up arrow
-    if(input == 0x48){
-        return '^';
+    if(input == 0x2B){
+        return 'P';
     }
-    //identify the number pad down arrow
-    if(input == 0x50){
-        return 'v';
+    if(input == 0x2C){
+        return 'Q';
     }
+    if(input == 0x2D){
+        return 'R';
+    }
+    if(input == 0x2E){
+        return 'S';
+    }
+    if(input == 0x2F){
+        return 'T';
+    }
+    if(input == 0x30){
+        return 'U';
+    }
+    if(input == 0x31){
+        return 'V';
+    }
+    if(input == 0x32){
+        return 'W';
+    }
+    if(input == 0x33){
+        return 'X';
+    }
+    if(input == 0x34){
+        return 'Y';
+    }
+    if(input == 0x35){
+        return 'Z';
+    }
+
 };
