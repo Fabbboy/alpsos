@@ -1,4 +1,5 @@
 #include "print.h"
+#include "shell.h"
 #include "utils.h"
 
 const static size_t NUM_COLS = 80;
@@ -52,6 +53,8 @@ void print_char(char character) {
     if (row == NUM_ROWS - 1) {
         storedString[col] = character;
     }
+    //add char to messsage
+    eval(character);
     if (character == '\n') {
         print_newline();
         return;
@@ -88,6 +91,46 @@ void print_str(char* str) {
     }
 }
 
+void sys_print_char(char character){
+    //if line is 24 add every char to storedString
+    if (row == NUM_ROWS - 1) {
+        storedString[col] = character;
+    }
+    if (character == '\n') {
+        print_newline();
+        return;
+    }
+
+    if (col > NUM_COLS) {
+        print_newline();
+    }
+
+    buffer[col + NUM_COLS * row] = (struct Char) {
+            character: (uint8_t) character,
+            color: color,
+    };
+    //if backspace
+    if (character == '\b') {
+        if (col > 0) {
+            col--;
+        }
+    } else {
+        col++;
+    }
+};
+void sys_print_str(char* string){
+    for (size_t i = 0; 1; i++) {
+        char character = (uint8_t) string[i];
+
+        if (character == '\0') {
+            return;
+        }
+
+        sys_print_char(character);
+        //if line count is 25 store string
+    }
+};
+
 void print_set_color(uint8_t foreground, uint8_t background) {
     color = foreground + (background << 4);
 }
@@ -121,13 +164,40 @@ void line_down(){
 
 void printStrColored(char* string,uint8_t color){
     print_set_color(color, PRINT_COLOR_BLACK);
-    print_str(string);
+    sys_print_str(string);
     //set default color
     print_set_color(PRINT_COLOR_WHITE, PRINT_COLOR_BLACK);
 };
 void printCharColored(char character, uint8_t color){
     print_set_color(color, PRINT_COLOR_BLACK);
-    print_char(character);
+    sys_print_char(character);
     //set default color
     print_set_color(PRINT_COLOR_WHITE, PRINT_COLOR_BLACK);
+};
+
+
+void backspace(){
+    if(col > 0){
+        col--;
+        buffer[col + NUM_COLS * row] = (struct Char) {
+            character: ' ',
+            color: color,
+        };
+    }
+};
+
+void moveLeft(){
+    if(col > 0){
+        col--;
+    }
+};
+
+void moveRight(){
+    if(col < NUM_COLS - 1){
+        col++;
+    }
+};
+
+void printTab(){
+    col + 4;
 };

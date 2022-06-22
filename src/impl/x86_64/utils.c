@@ -9,3 +9,4 @@ void SysWarning(const char* msg){
 void SysInfo(const char* msg){
     printStrColored(msg, PRINT_COLOR_GREEN | PRINT_COLOR_BLACK);
 };
+

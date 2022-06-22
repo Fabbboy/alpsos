@@ -9,6 +9,8 @@ uint8_t inb(uint16_t port);
 uint8_t keyboard_read_input();
 //identify the key pressed
 void keyboard_handle_input();
+void checkShift();
+
 
 
 #endif //ALPSOS_KEYBOARD_H

@@ -25,10 +25,24 @@ enum colors{
 };
 
 void print_clear();
+
+
 void print_char(char character);
 void print_str(char* string);
+
+
+void sys_print_char(char character);
+void sys_print_str(char* string);
+
+
 void line_up();
 void line_down();
 void printStrColored(char* string, uint8_t color);
 void printCharColored(char character, uint8_t color);
 void print_set_color(uint8_t foreground, uint8_t background);
+//backsapce function
+void backspace();
+void moveLeft();
+void moveRight();
+
+void printTab();
